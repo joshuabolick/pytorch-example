@@ -5,4 +5,5 @@ requests>=2.26.0
 scikit-learn>=0.24.0
 matplotlib>=3.4.0
 feedparser>=6.0.0
-nltk>=3.8.0
+nltk>=3.6.0
+flask>=2.0.0

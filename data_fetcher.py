@@ -16,7 +16,7 @@ class DataFetcher:
             'accuracy': []
         }
 
-    def fetch_headlines(self, skip_wait=False) -> List[Tuple[str, int]]:
+    def fetch_headlines(self, skip_wait=False) -> List[Tuple[str, str, int]]:
         """Fetch headlines from both RSS feeds."""
         current_time = time.time()
         if not skip_wait and current_time - self.last_fetch_time < self.fetch_interval:
@@ -28,13 +28,13 @@ class DataFetcher:
             print("Fetching CNN headlines...")
             cnn_news = feedparser.parse(self.cnn_feed)
             for entry in cnn_news.entries:
-                headlines.append((entry.title, 0))  # 0 for CNN
+                headlines.append((entry.title, entry.link, 0))  # 0 for CNN
             
             # Fetch Fox News headlines
             print("Fetching Fox News headlines...")
             fox_news = feedparser.parse(self.fox_feed)
             for entry in fox_news.entries:
-                headlines.append((entry.title, 1))  # 1 for Fox
+                headlines.append((entry.title, entry.link, 1))  # 1 for Fox
             
             self.last_fetch_time = time.time()
             print(f"Successfully fetched {len(headlines)} headlines")
@@ -50,7 +50,7 @@ class DataFetcher:
             return [], np.array([])
         
         # Pick a random headline
-        headline, source = random.choice(headlines)
+        headline, url, source = random.choice(headlines)
         
         return [headline], np.array([[source]])
 
